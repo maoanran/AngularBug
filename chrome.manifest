@@ -1,0 +1,5 @@
+content AngularBug chrome/content/
+
+skin    AngularBug classic/1.0   chrome/skin/classic/
+
+overlay chrome://firebug/content/firebugOverlay.xul         chrome://AngularBug/content/angular_bug_module.xul
