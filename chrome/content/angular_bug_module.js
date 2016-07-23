@@ -89,6 +89,17 @@ FBL.ns(function () {
                     }
                 },
 
+                refresh: function() {
+                    var angular = XPCNativeWrapper.unwrap(this.context.window).angular;
+                    if (angular) {
+                        var scrollTop = this.panelNode.scrollTop;
+                        var toggles = new ToggleBranch.ToggleBranch();
+                        this.rebuild(false, scrollTop, toggles);
+                    } else {
+                        FirebugReps.Warning.tag.replace({object: "NoMembersWarning"}, this.panelNode);
+                    }
+                },
+
                 show: function (state) {
                     BasePanel.show.apply(this, arguments);
 
