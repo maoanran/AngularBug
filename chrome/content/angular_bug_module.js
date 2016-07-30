@@ -8,7 +8,13 @@ FBL.ns(function () {
         var DOMBasePanel = require("firebug/dom/domBasePanel");
         var Events = require("firebug/lib/events");
         var FirebugReps = require("firebug/chrome/reps");
+        var Obj = require("firebug/lib/object");
+        var ToggleBranch = require("firebug/dom/toggleBranch");
+        var Editor = require("firebug/editor/editor");
+        var Str = require("firebug/lib/string");
+        var StackFrame = require("firebug/debugger/stack/stackFrame");
         var BasePanel = DOMBasePanel.prototype;
+        var checked = {functions: false, privateProperties: false};
 
         function AngularBasePanel() {
         }
@@ -45,7 +51,23 @@ FBL.ns(function () {
                 },
 
                 getOptionsMenuItems: function (context) {
-                    return [];
+                    return [
+                        {
+                            label: "show private properties",
+                            command: Obj.bindFixed(function () {
+                                checked.privateProperties = !checked.privateProperties;
+                                this.select(this.realObject, true);
+                            }, this),
+                            checked: checked.privateProperties
+                        }, {
+                            label: "show functions",
+                            command: Obj.bindFixed(function () {
+                                checked.functions = !checked.functions;
+                                this.select(this.realObject, true);
+                            }, this),
+                            checked: checked.functions
+                        }
+                    ];
                 },
 
                 hide: function () {
@@ -64,6 +86,7 @@ FBL.ns(function () {
                 },
 
                 select: function(object, forceUpdate) {
+                    this.realObject = object;
                     if (!object)
                         object = this.getDefaultSelection();
 
@@ -77,7 +100,7 @@ FBL.ns(function () {
 
                     var angular = XPCNativeWrapper.unwrap(this.context.window).angular;
                     if (angular) {
-                        object = angular.element(object).scope();
+                        object = this.filter(angular.element(object).scope());
                     }
 
                     if (forceUpdate || object != this.selection)
@@ -87,6 +110,20 @@ FBL.ns(function () {
 
                         Events.dispatch(Firebug.uiListeners, "onObjectSelected", [object, this]);
                     }
+                },
+
+                filter: function (object) {
+                    var tmp = {};
+                    for (var prop in object) {
+                        if (!checked.functions && typeof object[prop] === 'function') {
+                            continue;
+                        }
+                        if (!checked.privateProperties && prop.startsWith('$$')) {
+                            continue;
+                        }
+                        tmp[prop] = object[prop];
+                    }
+                    return tmp;
                 },
 
                 refresh: function() {
