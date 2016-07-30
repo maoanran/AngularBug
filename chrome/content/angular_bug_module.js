@@ -56,14 +56,14 @@ FBL.ns(function () {
                             label: "show private properties",
                             command: Obj.bindFixed(function () {
                                 checked.privateProperties = !checked.privateProperties;
-                                this.select(this.realObject, true);
+                                this.refresh();
                             }, this),
                             checked: checked.privateProperties
                         }, {
                             label: "show functions",
                             command: Obj.bindFixed(function () {
                                 checked.functions = !checked.functions;
-                                this.select(this.realObject, true);
+                                this.refresh();
                             }, this),
                             checked: checked.functions
                         }
@@ -129,9 +129,7 @@ FBL.ns(function () {
                 refresh: function() {
                     var angular = XPCNativeWrapper.unwrap(this.context.window).angular;
                     if (angular) {
-                        var scrollTop = this.panelNode.scrollTop;
-                        var toggles = new ToggleBranch.ToggleBranch();
-                        this.rebuild(false, scrollTop, toggles);
+                        this.select(this.realObject, true);
                     } else {
                         FirebugReps.Warning.tag.replace({object: "NoMembersWarning"}, this.panelNode);
                     }
