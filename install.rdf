@@ -3,8 +3,9 @@
 
 <Description about="urn:mozilla:install-manifest">
     <em:id>AngularBug@maoanran.com</em:id>
-    <em:version>0.1.0</em:version>
+    <em:version>0.2.0</em:version>
     <em:type>2</em:type>
+    <em:multiprocessCompatible>true</em:multiprocessCompatible>
 
     <!-- Any suitably modern toolkit application -->
     <em:targetApplication>

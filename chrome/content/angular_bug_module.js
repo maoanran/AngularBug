@@ -9,10 +9,6 @@ FBL.ns(function () {
         var Events = require("firebug/lib/events");
         var FirebugReps = require("firebug/chrome/reps");
         var Obj = require("firebug/lib/object");
-        var ToggleBranch = require("firebug/dom/toggleBranch");
-        var Editor = require("firebug/editor/editor");
-        var Str = require("firebug/lib/string");
-        var StackFrame = require("firebug/debugger/stack/stackFrame");
         var BasePanel = DOMBasePanel.prototype;
         var checked = {functions: false, privateProperties: false};
 
