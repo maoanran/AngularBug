@@ -3,7 +3,7 @@ Firebug AngularJS scope inspector
 
 install: https://addons.mozilla.org/zh-CN/firefox/addon/angularbug/ 
 
-![alt tag](https://addons.cdn.mozilla.net/user-media/previews/full/176/176228.png)
+![alt tag](https://addons.cdn.mozilla.net/user-media/previews/full/176/176789.png)
 
 ## 0.2.0(31, Jul 2016)
 
